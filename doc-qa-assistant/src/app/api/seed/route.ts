@@ -5,6 +5,8 @@ import { generateEmbeddings } from "@/lib/embeddings";
 import { sampleDocuments } from "@/data/sample-documents";
 import { v4 as uuidv4 } from "uuid";
 
+export const maxDuration = 60;
+
 export async function POST() {
   try {
     const supabase = getSupabase();
