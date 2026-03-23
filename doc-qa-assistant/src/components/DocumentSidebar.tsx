@@ -7,6 +7,8 @@ import {
   Upload,
   Trash2,
   File,
+  DatabaseZap,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +35,7 @@ export function DocumentSidebar() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [seeding, setSeeding] = useState(false);
 
   const fetchDocuments = useCallback(async () => {
     try {
@@ -71,6 +74,19 @@ export function DocumentSidebar() {
     fetchDocuments();
   };
 
+  const handleSeed = async () => {
+    setSeeding(true);
+    try {
+      const res = await fetch("/api/seed", { method: "POST" });
+      if (!res.ok) throw new Error("Seed failed");
+      await fetchDocuments();
+    } catch (error) {
+      console.error("Failed to seed documents:", error);
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   return (
     <div className="flex h-full w-72 flex-col border-r bg-muted/30">
       <div className="flex items-center justify-between p-4">
@@ -104,6 +120,20 @@ export function DocumentSidebar() {
             <div className="p-4 text-center text-sm text-muted-foreground">
               <p>No documents yet.</p>
               <p className="mt-1">Upload a document or seed sample data.</p>
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-3"
+                onClick={handleSeed}
+                disabled={seeding}
+              >
+                {seeding ? (
+                  <Loader2 className="size-3.5 animate-spin" />
+                ) : (
+                  <DatabaseZap className="size-3.5" />
+                )}
+                {seeding ? "Seeding..." : "Seed Sample Documents"}
+              </Button>
             </div>
           ) : (
             documents.map((doc) => (

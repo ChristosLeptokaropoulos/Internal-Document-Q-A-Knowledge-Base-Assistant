@@ -90,3 +90,12 @@ as $$
   order by dc.embedding <=> query_embedding
   limit match_count;
 $$;
+
+-- =============================================================================
+-- Row Level Security: Disabled for demo/portfolio project
+-- In production, enable RLS and add proper policies with authentication
+-- =============================================================================
+alter table documents disable row level security;
+alter table document_chunks disable row level security;
+alter table conversations disable row level security;
+alter table messages disable row level security;
