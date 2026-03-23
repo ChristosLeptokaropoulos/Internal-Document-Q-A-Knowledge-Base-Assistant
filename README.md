@@ -53,9 +53,7 @@ Internal teams waste significant time searching through SOPs, compliance guides,
 
 ## Live Demo
 
-> _Live demo link to be added after deployment to Vercel._
-
-<!-- **[Live Demo →](https://doc-qa-assistant.vercel.app)** -->
+**[Live Demo →](https://internal-document-q-a-knowledge-bas.vercel.app/)**
 
 ---
 
@@ -286,7 +284,7 @@ Set the same environment variables in Vercel's project settings. Set the **Root 
 
 | Requirement | Status |
 |---|---|
-| Live demo | 🔲 _Deploy to Vercel_ |
+| Live demo | ✅ [Live Demo](https://internal-document-q-a-knowledge-bas.vercel.app/) |
 | GitHub repo | ✅ [Repository](https://github.com/ChristosLeptokaropoulos/Internal-Document-Q-A-Knowledge-Base-Assistant) |
 | README | ✅ This document |
 | Screenshots | 🔲 _Capture after deployment_ |

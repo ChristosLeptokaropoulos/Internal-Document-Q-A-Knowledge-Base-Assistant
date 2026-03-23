@@ -9,6 +9,7 @@ import {
   File,
   DatabaseZap,
   Loader2,
+  MessageSquarePlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,13 +25,17 @@ import {
 import { DocumentUpload } from "@/components/DocumentUpload";
 import type { Document } from "@/types";
 
+interface DocumentSidebarProps {
+  onNewChat?: () => void;
+}
+
 const fileIcons: Record<string, React.ReactNode> = {
   pdf: <FileText className="size-4 text-red-500" />,
   md: <FileType className="size-4 text-blue-500" />,
   txt: <File className="size-4 text-gray-500" />,
 };
 
-export function DocumentSidebar() {
+export function DocumentSidebar({ onNewChat }: DocumentSidebarProps) {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -109,13 +114,32 @@ export function DocumentSidebar() {
           </DialogContent>
         </Dialog>
       </div>
+      <div className="px-4 pb-3">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="w-full justify-start"
+          onClick={onNewChat}
+        >
+          <MessageSquarePlus className="size-3.5" />
+          New Chat
+        </Button>
+      </div>
       <Separator />
       <ScrollArea className="flex-1">
         <div className="p-2">
           {loading ? (
-            <p className="p-4 text-center text-sm text-muted-foreground">
-              Loading...
-            </p>
+            <div className="space-y-2 p-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-start gap-2 rounded-md p-2">
+                  <div className="mt-0.5 size-4 animate-pulse rounded bg-muted" />
+                  <div className="flex-1 space-y-1.5">
+                    <div className="h-3.5 w-3/4 animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-1/2 animate-pulse rounded bg-muted" />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : documents.length === 0 ? (
             <div className="p-4 text-center text-sm text-muted-foreground">
               <p>No documents yet.</p>

@@ -1,9 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import { DocumentSidebar } from "@/components/DocumentSidebar";
 import { ChatInterface } from "@/components/ChatInterface";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen } from "lucide-react";
 
 export default function Home() {
+  const [chatKey, setChatKey] = useState(0);
+
   return (
     <div className="flex h-screen flex-col">
       {/* Header */}
@@ -26,9 +31,9 @@ export default function Home() {
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
-        <DocumentSidebar />
+        <DocumentSidebar onNewChat={() => setChatKey((k) => k + 1)} />
         <main className="flex-1">
-          <ChatInterface />
+          <ChatInterface key={chatKey} />
         </main>
       </div>
     </div>

@@ -80,6 +80,7 @@ export function ChatInterface() {
       }
 
       let buffer = "";
+      let streamCompleted = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -94,7 +95,9 @@ export function ChatInterface() {
           try {
             const data = JSON.parse(line.slice(6));
 
-            if (data.type === "sources") {
+            if (data.type === "done") {
+              streamCompleted = true;
+            } else if (data.type === "sources") {
               setConversationId(data.conversationId);
               setMessages((prev) => {
                 const updated = [...prev];
@@ -118,6 +121,20 @@ export function ChatInterface() {
             // Skip malformed JSON
           }
         }
+      }
+
+      if (!streamCompleted) {
+        setMessages((prev) => {
+          const updated = [...prev];
+          const last = updated[updated.length - 1];
+          updated[updated.length - 1] = {
+            ...last,
+            content:
+              last.content +
+              "\n\n---\n*⚠️ Response may be incomplete — the connection was interrupted.*",
+          };
+          return updated;
+        });
       }
     } catch (error) {
       console.error("Ask error:", error);

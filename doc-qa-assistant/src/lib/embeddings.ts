@@ -3,7 +3,7 @@ import OpenAI from "openai";
 export const EMBEDDING_MODEL = "text-embedding-3-small";
 export const CHAT_MODEL = "gpt-4o";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
   const BATCH_SIZE = 100;

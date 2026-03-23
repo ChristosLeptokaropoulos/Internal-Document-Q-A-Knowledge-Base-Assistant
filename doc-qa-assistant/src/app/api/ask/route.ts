@@ -1,11 +1,9 @@
 import { NextRequest } from "next/server";
 import { getSupabase } from "@/lib/supabase";
-import { generateSingleEmbedding, CHAT_MODEL } from "@/lib/embeddings";
-import OpenAI from "openai";
+import { generateSingleEmbedding, openai, CHAT_MODEL } from "@/lib/embeddings";
+import type OpenAI from "openai";
 import { v4 as uuidv4 } from "uuid";
 import type { Source } from "@/types";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export const maxDuration = 30; // Allow up to 30s for embedding + search + streaming
 
@@ -123,7 +121,7 @@ Rules:
       })),
     ];
 
-    if (context) {
+    if (sources.length > 0) {
       messages.push({
         role: "user",
         content: `Context from knowledge base:\n\n${context}\n\n---\n\nQuestion: ${question}`,
